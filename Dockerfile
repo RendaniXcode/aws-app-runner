@@ -13,10 +13,12 @@ RUN yum update -y \
     && amazon-linux-extras enable python3.8 \
     && yum groupinstall -y "Development tools" \
     && yum install -y \
-	       python38-devel \
+           python38-devel \
            pycairo \
            python38 \
            libffi-devel \
+           libjpeg-devel \
+           zlib-devel \
     && python3.8 -m pip install pip --upgrade \
     && ln -s /usr/local/bin/pip3 /usr/bin/pip3 \
     && ln -s /usr/bin/pydoc3.8 /usr/local/bin/pydoc \
@@ -27,4 +29,4 @@ RUN yum update -y \
 
 RUN pip3 install -r requirements.txt
 
-CMD ["python", "./app.py"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
